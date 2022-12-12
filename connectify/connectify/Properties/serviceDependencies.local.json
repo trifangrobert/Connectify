@@ -9,6 +9,12 @@
       "type": "mssql.local",
       "connectionId": "ConnectifyDB",
       "dynamicId": null
+    },
+    "mssql3": {
+      "secretStore": null,
+      "type": "mssql.local",
+      "connectionId": "testDB",
+      "dynamicId": null
     }
   }
 }

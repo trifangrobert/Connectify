@@ -1,5 +1,20 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model connectify.Models.Post
+
 @{
+    ViewBag.Title = "Index";
 }
+
+<h2>Posts on Connectify</h2>
+<br />
+
+@foreach (var post in ViewBag.Posts) {
+    <div class="post">
+        <h3>@post.Title</h3>
+        <p>@post.Content</p>
+        <p>Posted by @post.User on @post.Date</p>
+        <a href="/Posts/Show/@post.Id">Read more</a>
+        <a href="/Posts/Edit/@post.Id">Edit post</a>
+    </div>
+}
+
+<a href="/Posts/New">Create new post</a>
