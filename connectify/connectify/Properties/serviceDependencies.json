@@ -8,6 +8,11 @@
       "type": "mssql",
       "connectionId": "ConnectifyDB",
       "dynamicId": null
+    },
+    "mssql3": {
+      "type": "mssql",
+      "connectionId": "testDB",
+      "dynamicId": null
     }
   }
 }

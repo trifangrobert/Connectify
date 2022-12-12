@@ -9,8 +9,9 @@ namespace connectify.Models
 
 
         [Required(ErrorMessage = "Titlul este obligatoriu")]
-        [StringLength(30, ErrorMessage = "Titlul nu poate avea mai mult de 30 de caractere")]
         [MinLength(4, ErrorMessage = "Titlul trebuie sa aiba mai mult de 4 caractere")]
+        [StringLength(30, ErrorMessage = "Titlul nu poate avea mai mult de 30 de caractere")]
+        
         public string Title { get; set; }
         
         [Required(ErrorMessage = "Continutul postarii este obligatoriu")]
@@ -20,5 +21,7 @@ namespace connectify.Models
 
         public virtual ApplicationUser? User { get; set; }
         public virtual ICollection<Comment>? Comments { get; set; }
+
     }
+    
 }

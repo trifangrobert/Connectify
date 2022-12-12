@@ -1,0 +1,26 @@
+﻿@model connectify.Models.Post
+
+@{
+    ViewBag.Title = "Show";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">@Model.Title</h3>
+    </div>
+    <div class="panel-body">
+    <p>@Model.Content</p>
+    <p>Posted by @Model.User on @Model.Date</p>
+    
+    <form method="post" action="/Posts/Delete/@Model.Id">
+
+        <button class="btn btn-danger" type="submit">Delete post</button>
+        
+    </form>
+    
+    <a href="/Posts/Index">Return to all posts</a>
+    
+</div>
+
+
+<a class="btn btn-info" href="/Posts/New">Create a new post</a>
