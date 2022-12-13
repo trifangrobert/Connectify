@@ -44,6 +44,7 @@ namespace connectify.Controllers
         {
             try
             {
+                post.Date = DateTime.Now;
                 db.Posts.Add(post);
                 db.SaveChanges();
 
