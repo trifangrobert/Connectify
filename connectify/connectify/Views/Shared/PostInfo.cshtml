@@ -1,0 +1,24 @@
+﻿@model connectify.Models.Post
+
+<div class="card-body">
+    @if (Model != null)
+    {
+        <h3 class="card-title alert-success py-3 px-3 rounded-2">@Model.Title</h3>
+
+        <div class="card-text">@Model.Content</div>
+
+        <div class="d-flex justify-content-between flex-row mt-5">
+            
+            @if (Model.User != null)
+            {
+                <div><i class="bi bi-person"></i> @Model.User.UserName</div>
+            }
+            else {
+                <div><i class="bi bi-person"></i> <strong>BUG</strong></div>
+            }
+        <span class="alert-success">@Model.Date</span>
+
+    </div>
+    }
+
+</div>
