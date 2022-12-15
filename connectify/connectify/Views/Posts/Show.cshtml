@@ -4,20 +4,17 @@
     ViewBag.Title = "Show";
 }
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">@Model.Title</h3>
-    </div>
-    <div class="panel-body">
-    <p>@Model.Content</p>
-    <p>Posted by @Model.User on @Model.Date</p>
+<div class="card">
+    <a href="/Posts/Index" class="btn btn-secondary">Return to all posts</a>
     
+    @Html.Partial("PostInfo", Model)
+
+    <a href="/Posts/Edit/@Model.Id" class="btn btn-primary">Edit</a>
     <form method="post" action="/Posts/Delete/@Model.Id">
 
         <button class="btn btn-danger" type="submit">Delete post</button>
         
     </form>
     
-    <a href="/Posts/Index">Return to all posts</a>
     
 </div>

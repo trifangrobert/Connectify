@@ -7,14 +7,11 @@
 <h2>Posts on Connectify</h2>
 <br />
 
-@foreach (var post in ViewBag.Posts) {
-    <div class="post">
-        <h3>@post.Title</h3>
-        <p>@post.Content</p>
-        <p>Posted by @post.User on @post.Date</p>
-        <a href="/Posts/Show/@post.Id">Read more</a>
-        <a href="/Posts/Edit/@post.Id">Edit post</a>
+<a href="/Posts/New" class="btn btn-success">Create new post</a>
+
+@foreach (connectify.Models.Post post in ViewBag.Posts) {
+    <div class="card">
+        @Html.Partial("PostInfo", post)
+        <a href="/Posts/Show/@post.Id" class="btn btn-primary">Read more</a>
     </div>
 }
-
-<a href="/Posts/New">Create new post</a>
