@@ -39,11 +39,35 @@ namespace connectify.Controllers
         [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Show(int id)
         {
-            var post = db.Posts.Find(id);
+            Post post = db.Posts.Include("User").Include("Comments").Include("Comments.User").Where(pst => pst.Id == id).First();
 
-            ViewBag.User = _userManager.GetUserAsync(User);
+            SetAccessRights();
 
             return View(post);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "User,Editor,Admin")]
+        public IActionResult Show([FromForm] Comment comment)
+        {
+            comment.Date = DateTime.Now;
+            comment.UserId = _userManager.GetUserId(User);
+
+            if (ModelState.IsValid)
+            {
+                db.Comments.Add(comment);
+                db.SaveChanges();
+                return Redirect("/Posts/Show/" + comment.PostId);
+            }
+
+            else
+            {
+                Post post = db.Posts.Include("User").Include("Comments").Include("Comments.User").Where(pst => pst.Id == comment.PostId).First();
+
+                SetAccessRights();
+
+                return View(post);
+            }
         }
 
         [Authorize(Roles = "User,Moderator,Admin")]
@@ -57,10 +81,10 @@ namespace connectify.Controllers
         [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult New(Post post)
         {
+            post.Date = DateTime.Now;
+            post.UserId = _userManager.GetUserId(User);
             if (ModelState.IsValid)
             {
-                post.Date = DateTime.Now;
-                post.UserId = _userManager.GetUserId(User);
                 db.Posts.Add(post);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -74,7 +98,7 @@ namespace connectify.Controllers
         [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Edit(int id)
         {
-            var post = db.Posts.Find(id);
+            Post post = db.Posts.Where(pst => pst.Id == id).First();
 
             if (post.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
             {
@@ -98,7 +122,7 @@ namespace connectify.Controllers
 
                 if (post.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
                 {
-                    post.Date = DateTime.Now;
+                    //post.Date = DateTime.Now;
                     post.Title = reqpost.Title;
                     post.Content = reqpost.Content;
                     db.SaveChanges();
@@ -122,7 +146,8 @@ namespace connectify.Controllers
         [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Delete(int id)
         {
-            var post = db.Posts.Find(id);
+            Post post = db.Posts.Include("Comments").Where(art => art.Id == id).First();
+            
             if (ModelState.IsValid)
             {
                 if (post.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
@@ -142,6 +167,19 @@ namespace connectify.Controllers
                 return View(post);
             }
 
+        }
+        private void SetAccessRights()
+        {
+            ViewBag.AfisareButoane = false;
+
+            if (User.IsInRole("Moderator"))
+            {
+                ViewBag.AfisareButoane = true;
+            }
+
+            ViewBag.EsteAdmin = User.IsInRole("Admin");
+
+            ViewBag.UserCurent = _userManager.GetUserId(User);
         }
     }
 }
