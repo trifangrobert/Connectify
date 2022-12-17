@@ -38,3 +38,7 @@ a.nav-link:hover {
 .logoutbtn:hover {
     color: #00b894 !important;
 }
+
+.note-editor .dropdown-toggle::after {
+    display: none;
+}

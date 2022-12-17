@@ -1,5 +1,6 @@
 ﻿using connectify.Data;
 using connectify.Models;
+using Ganss.Xss;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -29,9 +30,26 @@ namespace connectify.Controllers
         [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Index()
         {
-            var posts = db.Posts.Include("User");
+            int pageSize = 4;
 
-            ViewBag.Posts = posts;
+            var posts = db.Posts.Include("User").OrderByDescending(p => p.Date);
+
+            int totalItems = posts.Count();
+
+            var currentPage = Convert.ToInt32(HttpContext.Request.Query["page"]);
+
+            var offset = 0;
+
+            if (currentPage > 1)
+            {
+                offset = (currentPage - 1) * pageSize;
+            }
+
+            var paginatedPosts = posts.Skip(offset).Take(pageSize);
+
+            ViewBag.lastPage = Math.Ceiling((double)totalItems / pageSize);
+
+            ViewBag.Posts = paginatedPosts;
 
             return View();
         }
@@ -81,10 +99,14 @@ namespace connectify.Controllers
         [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult New(Post post)
         {
+            var sanitizer = new HtmlSanitizer();
+
             post.Date = DateTime.Now;
             post.UserId = _userManager.GetUserId(User);
             if (ModelState.IsValid)
             {
+                post.Content = sanitizer.Sanitize(post.Content);
+              
                 db.Posts.Add(post);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -115,6 +137,8 @@ namespace connectify.Controllers
         [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Edit(int id, Post reqpost)
         {
+            var sanitizer = new HtmlSanitizer();
+
             Post post = db.Posts.Find(id);
             
             if (ModelState.IsValid)
@@ -122,6 +146,7 @@ namespace connectify.Controllers
 
                 if (post.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
                 {
+                    reqpost.Content = sanitizer.Sanitize(reqpost.Content);
                     //post.Date = DateTime.Now;
                     post.Title = reqpost.Title;
                     post.Content = reqpost.Content;
