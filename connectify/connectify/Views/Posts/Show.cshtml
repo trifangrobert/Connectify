@@ -5,17 +5,25 @@
 }
 
 <div class="card">
-    <a href="/Posts/Index" class="btn btn-secondary">Return to all posts</a>
+    <div class="d-flex flex-row justify-content-between p-3 border-1 border-top">
+        <a href="/Posts/Index" class="btn btn-secondary">Return to all posts</a>
+     </div>
 
     @Html.Partial("PostInfo", Model)
 
-    <a href="/Posts/Edit/@Model.Id" class="btn btn-primary">Edit</a>
-    <form method="post" action="/Posts/Delete/@Model.Id">
+    @if (ViewBag.AfisareButoane == true && Model.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin) {
+        <div class="d-flex flex-row justify-content-between p-3 border-1 border-top">
 
-        <button class="btn btn-danger" type="submit">Delete post</button>
+            <a class="btn btn-success" href="/Posts/Edit/@Model.Id">Edit post</a>
 
-    </form>
+            <form method="post" action="/Posts/Delete/@Model.Id">
 
+                <button class="btn btn-danger" type="submit">Delete post</button>
+                
+            </form>
+
+        </div>
+    }
 
 </div>
 

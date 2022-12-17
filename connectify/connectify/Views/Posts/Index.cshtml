@@ -12,6 +12,8 @@
 @foreach (connectify.Models.Post post in ViewBag.Posts) {
     <div class="card">
         @Html.Partial("PostInfo", post)
-        <a href="/Posts/Show/@post.Id" class="btn btn-primary">Read more</a>
+        <div class="d-flex flex-row justify-content-between p-3 border-1 border-top">
+            <a href="/Posts/Show/@post.Id" class="btn btn-primary">Read more</a>
+        </div>
     </div>
 }
