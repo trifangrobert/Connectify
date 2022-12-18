@@ -4,6 +4,14 @@
     ViewBag.Title = "Index";
 }
 
+<form method="GET">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search users" name="search"
+               value="@ViewBag.SearchString">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </div>
+</form>
+
 <h2>Posts on Connectify</h2>
 <br />
 
@@ -22,16 +30,16 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination">
             <li class="page-item">
-                <a class="page-link" href="/Posts/Index?page=1" aria-label="Previous">
+                <a class="page-link" href="@ViewBag.PaginationBaseUrl=1" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             @for (int i = 1; i <= ViewBag.lastPage; i++)
             {
-                <li class="page-item"> <a class="page-link" href="/Posts/Index?page=@i">@(i)</a> </li>
+                <li class="page-item"> <a class="page-link" href="@ViewBag.PaginationBaseUrl=@i">@(i)</a> </li>
             }
             <li class="page-item">
-                <a class="page-link" href="/Posts/Index?page=@(ViewBag.lastPage)" aria-label="Next">
+                <a class="page-link" href="@ViewBag.PaginationBaseUrl=@(ViewBag.lastPage)" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
