@@ -40,6 +40,16 @@ namespace connectify.Controllers
 
             var offset = 0;
 
+            var search = "";
+
+            if (Convert.ToString(HttpContext.Request.Query["search"]) != null)
+            {
+                search = Convert.ToString(HttpContext.Request.Query["search"]).Trim();
+                List<string> userIds = db.Users.Where(u => u.UserName.Contains(search)).Select(u => u.Id).ToList();
+            }
+
+            ViewBag.SearchString = search;
+
             if (currentPage > 1)
             {
                 offset = (currentPage - 1) * pageSize;
@@ -50,6 +60,15 @@ namespace connectify.Controllers
             ViewBag.lastPage = Math.Ceiling((double)totalItems / pageSize);
 
             ViewBag.Posts = paginatedPosts;
+
+            if (search != "")
+            {
+                ViewBag.PaginationBaseUrl = "/Posts/Index?search=" + search + "&page";
+            }
+            else
+            {
+                ViewBag.PaginationBaseUrl = "/Posts/Index?page";
+            }
 
             return View();
         }
