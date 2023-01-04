@@ -207,5 +207,13 @@ namespace ArticlesApp.Controllers
             return RedirectToAction("Index");
 
         }
+
+        [NonAction]
+        private void SetAccessRights()
+        {
+            ViewBag.AfisareButoane = false;
+
+            ViewBag.EsteAdmin = User.IsInRole("Admin");
+        }
     }
 }

@@ -15,6 +15,9 @@ namespace connectify.Models
         public string? LastName { get; set; }
 
         public bool? Visibility { get; set; }
+
+        public ICollection<Group>? Groups { get; set; }
+        public virtual ICollection<Message>? Messages { get; set; }
         [NotMapped]
         public IEnumerable<SelectListItem>? AllRoles { get; set; }
 
