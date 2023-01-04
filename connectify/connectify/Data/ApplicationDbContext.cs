@@ -29,6 +29,9 @@ namespace connectify.Data
             builder.Entity<ApplicationUserGroup>()
                 .HasKey(t => new { t.ApplicationUserId, t.GroupId });
         }
+
+        public DbSet<FriendRequest> Friends { get; set; }
+
     }
 }
 
