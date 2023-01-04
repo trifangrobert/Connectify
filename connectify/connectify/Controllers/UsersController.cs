@@ -156,5 +156,24 @@ namespace ArticlesApp.Controllers
             }
             return selectList;
         }
+
+        //add friend function
+        public async Task<ActionResult> AddFriend(string friendId)
+        {
+            ApplicationUser userFriend = db.Users.Find(friendId);
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            string userId = user.Id;
+
+            Friends friendRequest = new Friends();
+            friendRequest.UserId = userId;
+            friendRequest.FriendId = friendId;
+            friendRequest.Status = "Pending";
+            friendRequest.Friend = userFriend;
+            friendRequest.User = user;
+            db.Friends.Add(friendRequest);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+
+        }
     }
 }
