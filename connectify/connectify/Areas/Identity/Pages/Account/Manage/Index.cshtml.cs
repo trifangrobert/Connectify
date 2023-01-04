@@ -59,6 +59,14 @@ namespace connectify.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+            
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+            public bool Visibility { get; set; }
+
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -66,11 +74,18 @@ namespace connectify.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
+            var firstName = user.FirstName;
+            var lastName = user.LastName;
+            bool visibility = (bool)user.Visibility;
+
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                FirstName = firstName,
+                LastName = lastName,
+                Visibility = visibility
             };
         }
 
@@ -111,6 +126,27 @@ namespace connectify.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            var firstName = user.FirstName;
+            if (Input.FirstName != firstName)
+            {
+                user.FirstName = Input.FirstName;
+                await _userManager.UpdateAsync(user);
+            }
+
+            var lastName = user.LastName;
+            if (Input.LastName != lastName)
+            {
+                user.LastName = Input.LastName;
+                await _userManager.UpdateAsync(user);
+            }
+
+            var visibility = user.Visibility;
+            if (Input.Visibility != visibility)
+            {
+                user.Visibility = Input.Visibility;
+                await _userManager.UpdateAsync(user);
+            }
+            
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
