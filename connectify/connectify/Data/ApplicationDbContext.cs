@@ -20,8 +20,7 @@ namespace connectify.Data
         public string LastName { get; set; }
         public bool Visibility { get; set; }
 
-    
-
+        public DbSet<FriendRequest> Friends { get; set; }
     }
 }
 

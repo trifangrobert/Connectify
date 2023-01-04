@@ -18,5 +18,8 @@ namespace connectify.Models
         [NotMapped]
         public IEnumerable<SelectListItem>? AllRoles { get; set; }
 
+        [NotMapped]
+        public virtual ICollection<ApplicationUser>? Friends { get; set; }
+
     }
 }
