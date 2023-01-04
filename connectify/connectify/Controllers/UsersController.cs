@@ -165,18 +165,40 @@ namespace ArticlesApp.Controllers
                 });
             }
             return selectList;
-        }
+        } 
 
-        //add friend function
-        public async Task<ActionResult> AddFriend(string friendId)
+        public async Task<IActionResult> AddFriend(string id)
         {
-            ApplicationUser userFriend = db.Users.Find(friendId);
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            string userId = user.Id;
+            ApplicationUser userFriend = db.Users.Find(id);
 
-            Friends friendRequest = new Friends();
+            string userId = user.Id;
+            
+            if (userId == id)
+            {
+                return RedirectToAction("Index");
+            }
+
+            //check if friend request already exists
+
+            var fr = db.Friends.Where(f => f.UserId == user.Id && f.FriendId == userFriend.Id).FirstOrDefault();
+            if (fr != null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            fr = db.Friends.Where(f => f.FriendId == user.Id && f.UserId == userFriend.Id).FirstOrDefault();
+            
+            if (fr != null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            
+
+            FriendRequest friendRequest = new FriendRequest();
             friendRequest.UserId = userId;
-            friendRequest.FriendId = friendId;
+            friendRequest.FriendId = id;
             friendRequest.Status = "Pending";
             friendRequest.Friend = userFriend;
             friendRequest.User = user;

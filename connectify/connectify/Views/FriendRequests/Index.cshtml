@@ -1,21 +1,36 @@
-﻿<div class="row">
-    @foreach (var user in ViewBag.UsersList)
+﻿<h1>Aici o sa fie cererile de prietenie!</h1>
+
+
+@{
+	ViewBag.Title = "Index";
+}
+
+
+<h1>@ViewBag.friendRequests.Length cereri de prietenie</h1>
+
+	
+<div class="row">
+    @foreach (var user in ViewBag.friendRequests)
     {
         <div class="col-4 mb-4">
             <div class="card" style="height:100%; width: 100%;">
 
                 <div class="card-body d-flex justify-content-between flex-column">
                     <div>
-                        <p><i class="bi bi-person"> </i> UserName: @user.UserName</p>
+						@if (user.UserName != null) 
+                        {
+                            <p><i class="bi bi-person"> </i> UserName: @user.UserName</p>
+                        }
 
-                        <p><i class="bi bi-envelope"></i> User email: @user.Email</p>
-
+						@if (user.Email != null)
+						{
+                            <p><i class="bi bi-envelope"></i> User email: @user.Email</p>
+						}
 
                         @if (@user.FirstName != null)
                         {
                             <p><i class="bi bi-person"> </i> User First Name: @user.FirstName</p>
                         }
-
 
                         @if (@user.LastName != null)
                         {
@@ -30,11 +45,8 @@
 
                     </div>
                     <div class="d-flex flex-row justify-content-between p-3">
-
-                        <div> <a class="btn btn-sm btn-success" href="/Users/Edit/@user.Id"> Edit user</a> </div>
-                        <div> <a class="btn btn-sm btn-success" href="/Users/AddFriend/@user.Id"> Add friend</a> </div>
-                        <div> <a class="btn btn-sm btn-success" href="/Users/Show/@user.Id"> View user</a> </div>
-
+                        <div> <a class="btn btn-sm btn-success" href="/FriendRequests/Accept/@user.Id"> Accept</a> </div>
+                        <div> <a class="btn btn-sm btn-success" href="/FriendRequests/Reject/@user.Id"> Reject</a> </div>
                     </div>
                 </div>
 
@@ -46,4 +58,3 @@
 
 <br />
 <br />
-
