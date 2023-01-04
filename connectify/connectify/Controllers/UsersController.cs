@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ArticlesApp.Controllers
 {
-    
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext db;
@@ -30,21 +30,13 @@ namespace ArticlesApp.Controllers
 
             _roleManager = roleManager;
         }
-        public IActionResult Index(string search)
+        public IActionResult Index()
         {
             var users = from user in db.Users
                         orderby user.UserName
                         select user;
-            if (User.IsInRole("Admin"))
-            {
-                ViewBag.UsersList = users;
-            }
 
-
-            if (search != null)
-            {
-                ViewBag.UsersList = users.Where(u => (u.FirstName.Contains(search) || u.LastName.Contains(search)));
-            }
+            ViewBag.UsersList = users;
 
             return View();
         }
@@ -59,7 +51,6 @@ namespace ArticlesApp.Controllers
             return View(user);
         }
 
-        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit(string id)
         {
             ApplicationUser user = db.Users.Find(id);
@@ -78,8 +69,7 @@ namespace ArticlesApp.Controllers
             return View(user);
         }
 
-        [HttpPost] 
-        [Authorize(Roles = "Admin")]
+        [HttpPost]
         public async Task<ActionResult> Edit(string id, ApplicationUser newData, [FromForm] string newRole)
         {
             ApplicationUser user = db.Users.Find(id);
@@ -114,8 +104,8 @@ namespace ArticlesApp.Controllers
             return RedirectToAction("Index");
         }
 
+
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         public IActionResult Delete(string id)
         {
             var user = db.Users

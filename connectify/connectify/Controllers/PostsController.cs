@@ -45,7 +45,7 @@ namespace connectify.Controllers
             if (Convert.ToString(HttpContext.Request.Query["search"]) != null)
             {
                 search = Convert.ToString(HttpContext.Request.Query["search"]).Trim();
-                List<string> userIds = db.Users.Where(u => (u.FirstName.Contains(search) || u.LastName.Contains(search))).Select(u => u.Id).ToList();
+                List<string> userIds = db.Users.Where(u => u.UserName.Contains(search)).Select(u => u.Id).ToList();
             }
 
             ViewBag.SearchString = search;
@@ -63,8 +63,7 @@ namespace connectify.Controllers
 
             if (search != "")
             {
-                ViewBag.PaginationBaseUrl = "/Users/Index?search=" + search + "&page";
-                return RedirectToAction("Index", "Users", new {@search = search});
+                ViewBag.PaginationBaseUrl = "/Posts/Index?search=" + search + "&page";
             }
             else
             {
