@@ -1,6 +1,9 @@
-﻿using connectify.Models;
+﻿using connectify.Data.Migrations;
+using connectify.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+
+
 
 namespace connectify.Data
 {
@@ -10,10 +13,19 @@ namespace connectify.Data
             : base(options)
         {
         }
-
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public DbSet<Post> Posts{ get; set; }
+        public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
+<<<<<<< HEAD
         public DbSet<Friends> Friends { get; set; }
+=======
+        public string FistName { get; set; }
+        public string LastName { get; set; }
+        public bool Visibility { get; set; }
+
+    
+
+>>>>>>> 87b56b3892a7542ffd0fb3af03c4efa83683945b
     }
 }
+

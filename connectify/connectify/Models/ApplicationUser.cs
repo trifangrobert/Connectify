@@ -14,6 +14,7 @@ namespace connectify.Models
 
         public string? LastName { get; set; }
 
+        public bool? Visibility { get; set; }
         [NotMapped]
         public IEnumerable<SelectListItem>? AllRoles { get; set; }
 
