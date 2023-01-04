@@ -19,9 +19,16 @@ namespace connectify.Data
         public string FistName { get; set; }
         public string LastName { get; set; }
         public bool Visibility { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<ApplicationUserGroup> ApplicationUserGroups { get; set; }
 
-    
-
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<ApplicationUserGroup>()
+                .HasKey(t => new { t.ApplicationUserId, t.GroupId });
+        }
     }
 }
 

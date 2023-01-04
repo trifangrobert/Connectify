@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using connectify.Data;
 
@@ -11,9 +12,11 @@ using connectify.Data;
 namespace connectify.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230104182122_migmigmig2")]
+    partial class migmigmig2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,21 +251,6 @@ namespace connectify.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("connectify.Models.ApplicationUserGroup", b =>
-                {
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ApplicationUserId", "GroupId");
-
-                    b.HasIndex("GroupId");
-
-                    b.ToTable("ApplicationUserGroups");
-                });
-
             modelBuilder.Entity("connectify.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -441,25 +429,6 @@ namespace connectify.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("connectify.Models.ApplicationUserGroup", b =>
-                {
-                    b.HasOne("connectify.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("connectify.Models.Group", "Group")
-                        .WithMany()
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("Group");
                 });
 
             modelBuilder.Entity("connectify.Models.Comment", b =>

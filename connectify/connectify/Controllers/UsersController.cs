@@ -166,5 +166,13 @@ namespace ArticlesApp.Controllers
             }
             return selectList;
         }
+
+        [NonAction]
+        private void SetAccessRights()
+        {
+            ViewBag.AfisareButoane = false;
+
+            ViewBag.EsteAdmin = User.IsInRole("Admin");
+        }
     }
 }

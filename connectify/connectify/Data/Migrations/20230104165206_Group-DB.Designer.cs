@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using connectify.Data;
 
@@ -11,9 +12,11 @@ using connectify.Data;
 namespace connectify.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230104165206_Group-DB")]
+    partial class GroupDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,21 +251,6 @@ namespace connectify.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("connectify.Models.ApplicationUserGroup", b =>
-                {
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ApplicationUserId", "GroupId");
-
-                    b.HasIndex("GroupId");
-
-                    b.ToTable("ApplicationUserGroups");
-                });
-
             modelBuilder.Entity("connectify.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -302,20 +290,15 @@ namespace connectify.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Group");
                 });
 
             modelBuilder.Entity("connectify.Models.Message", b =>
@@ -336,15 +319,13 @@ namespace connectify.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("GroupId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Messages");
+                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("connectify.Models.Post", b =>
@@ -443,25 +424,6 @@ namespace connectify.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("connectify.Models.ApplicationUserGroup", b =>
-                {
-                    b.HasOne("connectify.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("connectify.Models.Group", "Group")
-                        .WithMany()
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("Group");
-                });
-
             modelBuilder.Entity("connectify.Models.Comment", b =>
                 {
                     b.HasOne("connectify.Models.Post", "Post")
@@ -485,13 +447,7 @@ namespace connectify.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("connectify.Models.ApplicationUser", "User")
-                        .WithMany("Messages")
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Group");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("connectify.Models.Post", b =>
@@ -506,8 +462,6 @@ namespace connectify.Data.Migrations
             modelBuilder.Entity("connectify.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("Messages");
 
                     b.Navigation("Posts");
                 });

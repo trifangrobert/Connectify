@@ -1,0 +1,31 @@
+﻿@model connectify.Models.Group
+
+@{
+    ViewBag.Title = "Show";
+}
+
+<div class="card">
+    <div class="d-flex flex-row justify-content-between p-3 border-1 border-top">
+        <a href="/Groups/Index" class="btn btn-secondary">Return to all groups</a>
+    </div>
+
+    @Html.Partial("GroupInfo", Model)
+
+    <div class="d-flex flex-row justify-content-between p-3 border-1 border-top">
+    
+        <a class="btn btn-primary" href="/Groups/Join/@Model.Id">Join group</a>
+        @if (ViewBag.AfisareButoane == true || Model.OwnerId == ViewBag.UserCurent || ViewBag.EsteAdmin)
+        {
+        
+                <a class="btn btn-success" href="/Groups/Edit/@Model.Id">Edit group</a>
+
+                <form method="post" action="/Groups/Delete/@Model.Id">
+
+                    <button class="btn btn-danger" type="submit">Delete group</button>
+
+                </form>
+
+        }
+    </div>
+
+</div>
