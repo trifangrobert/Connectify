@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ArticlesApp.Controllers
 {
-    
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext db;
@@ -46,6 +45,13 @@ namespace ArticlesApp.Controllers
                 ViewBag.UsersList = users.Where(u => (u.FirstName.Contains(search) || u.LastName.Contains(search)));
             }
 
+            //get current user friend list
+            var currentUser = _userManager.GetUserAsync(User).Result;
+            var friends = db.Friends.Where(f => f.User == currentUser && f.Status == "Accepted").Select(f => f.Friend).ToList();
+            var aux = db.Friends.Where(f => f.Friend == currentUser && f.Status == "Accepted").Select(f => f.User).ToList();
+            friends.AddRange(aux);
+            ViewBag.isAdmin = User.IsInRole("Admin");
+            ViewBag.friends = friends;
             return View();
         }
 
@@ -193,9 +199,6 @@ namespace ArticlesApp.Controllers
             {
                 return RedirectToAction("Index", "Posts");
             }
-
-            
-
             FriendRequest friendRequest = new FriendRequest();
             friendRequest.UserId = userId;
             friendRequest.FriendId = id;
@@ -204,6 +207,40 @@ namespace ArticlesApp.Controllers
             friendRequest.User = user;
             db.Friends.Add(friendRequest);
             db.SaveChanges();
+            return RedirectToAction("Index", "Posts");
+
+        }
+
+        // remove friend
+
+        public async Task<IActionResult> RemoveFriend(string id)
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            ApplicationUser userFriend = db.Users.Find(id);
+
+            string userId = user.Id;
+
+            if (userId == id)
+            {
+                return RedirectToAction("Index", "Posts");
+            }
+
+            var fr = db.Friends.Where(f => f.UserId == user.Id && f.FriendId == userFriend.Id && f.Status == "Accepted").FirstOrDefault();
+            if (fr != null)
+            {
+                db.Friends.Remove(fr);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Posts");
+            }
+
+            fr = db.Friends.Where(f => f.FriendId == user.Id && f.UserId == userFriend.Id && f.Status == "Accepted").FirstOrDefault();
+
+            if (fr != null)
+            {
+                db.Friends.Remove(fr);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Posts");
+            }
             return RedirectToAction("Index", "Posts");
 
         }
