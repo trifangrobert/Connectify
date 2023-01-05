@@ -8,7 +8,7 @@ namespace connectify.Models
     {
         public virtual ICollection<Comment>? Comments { get; set; }
 
-        public virtual ICollection<Post>? Posts{ get; set; }
+        public virtual ICollection<Post>? Posts { get; set; }
 
         public string? FirstName { get; set; }
 
@@ -21,7 +21,7 @@ namespace connectify.Models
         [NotMapped]
         public IEnumerable<SelectListItem>? AllRoles { get; set; }
 
-        [NotMapped]
+        //[NotMapped]
         public virtual ICollection<ApplicationUser>? Friends { get; set; }
 
     }

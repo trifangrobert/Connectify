@@ -1,0 +1,31 @@
+﻿@model connectify.Models.Message
+
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Editare mesaj</h2>
+<br />
+
+
+@using (Html.BeginForm(controllerName: "Messages", actionName: "Edit",
+     method: FormMethod.Post, routeValues: new { id = Model.Id }))
+
+{
+    @Html.Label("Content", "Continut mesaj")
+
+    <br />
+
+    @Html.TextArea("Content", new { @class = "form-control" })
+    <br />
+
+    @Html.ValidationMessage("Content", null, new { @class = "text-danger" })
+
+    <br />
+    <br />
+
+    <button class="btn  btn-primary" type="submit">Editeaza mesajul</button>
+
+}
+
