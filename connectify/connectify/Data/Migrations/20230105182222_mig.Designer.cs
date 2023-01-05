@@ -12,8 +12,8 @@ using connectify.Data;
 namespace connectify.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230104211200_Group-Database")]
-    partial class GroupDatabase
+    [Migration("20230105182222_mig")]
+    partial class mig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -185,6 +185,9 @@ namespace connectify.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -239,6 +242,8 @@ namespace connectify.Data.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -305,7 +310,6 @@ namespace connectify.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FriendId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Status")
@@ -313,7 +317,6 @@ namespace connectify.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -475,6 +478,13 @@ namespace connectify.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("connectify.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("connectify.Models.ApplicationUser", null)
+                        .WithMany("Friends")
+                        .HasForeignKey("ApplicationUserId");
+                });
+
             modelBuilder.Entity("connectify.Models.ApplicationUserGroup", b =>
                 {
                     b.HasOne("connectify.Models.ApplicationUser", "ApplicationUser")
@@ -513,15 +523,11 @@ namespace connectify.Data.Migrations
                 {
                     b.HasOne("connectify.Models.ApplicationUser", "Friend")
                         .WithMany()
-                        .HasForeignKey("FriendId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FriendId");
 
                     b.HasOne("connectify.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Friend");
 
@@ -557,6 +563,8 @@ namespace connectify.Data.Migrations
             modelBuilder.Entity("connectify.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Friends");
 
                     b.Navigation("Messages");
 

@@ -12,20 +12,130 @@
     @Html.Partial("GroupInfo", Model)
 
     <div class="d-flex flex-row justify-content-between p-3 border-1 border-top">
-    
-        <a class="btn btn-primary" href="/Groups/Join/@Model.Id">Join group</a>
+        @if (!ViewBag.IsOwner) {
+            @if (ViewBag.IsMember)
+            {
+                <form method="post" action="/Groups/Leave/@Model.Id">
+                    <button class="btn btn-danger" type="submit">Leave group</button>
+                </form>
+            }
+            else {
+                <form method="post" action="/Groups/Join/@Model.Id">
+                    <button class="btn btn-primary" type="submit">Join group</button>
+                </form>
+            }
+        }
         @if (ViewBag.AfisareButoane == true || Model.OwnerId == ViewBag.UserCurent || ViewBag.EsteAdmin)
         {
-        
-                <a class="btn btn-success" href="/Groups/Edit/@Model.Id">Edit group</a>
 
-                <form method="post" action="/Groups/Delete/@Model.Id">
+            <a class="btn btn-success" href="/Groups/Edit/@Model.Id">Edit group</a>
 
-                    <button class="btn btn-danger" type="submit">Delete group</button>
+            <form method="post" action="/Groups/Delete/@Model.Id">
 
-                </form>
+                <button class="btn btn-danger" type="submit">Delete group</button>
+
+            </form>
 
         }
     </div>
 
 </div>
+
+@if (ViewBag.IsMember == true || ViewBag.IsOwner == true) {
+@foreach (var msg in Model.Messages)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+
+            <div class="col-md-8">
+
+                <div>
+
+                    <p>@msg.Content</p>
+                    <small>@msg.Date</small>
+                    <strong><i class="bi bi-person"></i>@msg.User.UserName</strong>
+
+                </div>
+                <br>
+
+
+                @if (msg.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin)
+                {
+
+                    <div class="d-flex">
+
+                        <div>
+
+                            <a class="btn btn-outline-primary" href="/Messages/Edit/@msg.Id"><i class="bi bi-pencil-square"></i>Editeaza</a>
+
+                        </div>
+
+                        <div>
+
+                            <form method="post" action="/Messages/Delete/@msg.Id">
+
+                                <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Sterge</button>
+
+                            </form>
+                            
+                        </div>
+
+                    </div>
+                }
+
+                <br />
+
+            </div>
+
+            <div class="col-md-2"></div>
+
+        </div>
+
+    </div>
+}
+
+
+@* Afisarea formularului in care se poate adauga un mesaj *@
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-2"></div>
+
+        <div class="col-md-8">
+
+            <div class="card">
+
+                <form method="post" action="/Groups/Show/@Model.Id">
+
+                    <div class="card-body">
+
+                        <input type="hidden" name="GroupId" value="@Model.Id" />
+
+                        <label>Continut mesaj</label>
+                        <br />
+
+                        <textarea class="form-control" name="Content"></textarea>
+
+                        @Html.ValidationMessage("Content", null, new { @class = "text-danger"})
+
+                        <br /><br />
+
+                        <button class="btn btn-success " type="submit">Adauga mesaj</button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-2"></div>
+
+    </div>
+
+</div>
+}
