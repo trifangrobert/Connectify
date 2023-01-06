@@ -9,8 +9,27 @@
 
         <div class="d-flex justify-content-between flex-row mt-5">
         <div><i class="bi bi-person"></i> @Model.User.UserName</div>
-        <span class="alert-success">@Model.Date</span>
+            @*<span class="alert-success">@Model.Date.ToString("dd MMMM yyyy")</span>*@
+            @{
+                var currentDate = DateTime.Now;
+                var timeDifference = currentDate - Model.Date;
 
+                if (timeDifference.TotalSeconds < 60) {
+                    <span>@string.Format("Just now")</span>
+                }
+                else if (timeDifference.TotalMinutes < 60)
+                {
+                    <span>@string.Format("{0} min ago", timeDifference.Minutes)</span>
+                }
+                else if (timeDifference.TotalHours < 24)
+                {
+                    <span>@string.Format("{0} h ago", timeDifference.Hours)</span>
+                }
+                else
+                {
+                    <span>@Model.Date.ToString("dd MMMM yyyy")</span>
+                }
+            }
     </div>
     }
 
