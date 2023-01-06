@@ -298,7 +298,7 @@ namespace connectify.Data.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("connectify.Models.Friend", b =>
+            modelBuilder.Entity("connectify.Models.FriendRequest", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -306,19 +306,19 @@ namespace connectify.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("FriendId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserFriendId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserFriendId");
+                    b.HasIndex("FriendId");
 
                     b.HasIndex("UserId");
 
@@ -516,19 +516,19 @@ namespace connectify.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("connectify.Models.Friend", b =>
+            modelBuilder.Entity("connectify.Models.FriendRequest", b =>
                 {
-                    b.HasOne("connectify.Models.ApplicationUser", "UserFriend")
+                    b.HasOne("connectify.Models.ApplicationUser", "Friend")
                         .WithMany()
-                        .HasForeignKey("UserFriendId");
+                        .HasForeignKey("FriendId");
 
                     b.HasOne("connectify.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
-                    b.Navigation("User");
+                    b.Navigation("Friend");
 
-                    b.Navigation("UserFriend");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("connectify.Models.Message", b =>

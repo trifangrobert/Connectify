@@ -47,12 +47,11 @@ namespace ArticlesApp.Controllers
 
             //get current user friend list
             var currentUser = _userManager.GetUserAsync(User).Result;
-            var friends = db.Friends.Where(f => f.User == currentUser && f.Status == "Accepted").Select(f => f.UserFriend).ToList();
-            var aux = db.Friends.Where(f => f.UserFriend == currentUser && f.Status == "Accepted").Select(f => f.User).ToList();
+            var friends = db.Friends.Where(f => f.User == currentUser && f.Status == "Accepted").Select(f => f.Friend).ToList();
+            var aux = db.Friends.Where(f => f.Friend == currentUser && f.Status == "Accepted").Select(f => f.User).ToList();
             friends.AddRange(aux);
             ViewBag.isAdmin = User.IsInRole("Admin");
             ViewBag.friends = friends;
-            ViewBag.currentUser = currentUser;
             return View();
         }
 
@@ -62,25 +61,8 @@ namespace ArticlesApp.Controllers
             var roles = await _userManager.GetRolesAsync(user);
 
             ViewBag.Roles = roles;
-            // only friends or admin can access show page or if user visibility is true
-            var currentUser = _userManager.GetUserAsync(User).Result;
-            var friends = db.Friends.Where(f => f.User == currentUser && f.Status == "Accepted").Select(f => f.UserFriend).ToList();
-            var aux = db.Friends.Where(f => f.UserFriend == currentUser && f.Status == "Accepted").Select(f => f.User).ToList();
-            friends.AddRange(aux);
-            ViewBag.isAdmin = User.IsInRole("Admin");
-            ViewBag.friends = friends;
-            ViewBag.currentUser = currentUser;
-            
-            SetAccessRights();
 
-            if (friends.Contains(user) || User.IsInRole("Admin") || user.Visibility == true)
-            {
-                return View(user);
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            return View(user);
         }
 
         [Authorize(Roles = "Admin")]
@@ -205,23 +187,23 @@ namespace ArticlesApp.Controllers
 
             //check if friend request already exists
 
-            var fr = db.Friends.Where(f => f.UserId == user.Id && f.UserFriendId == userFriend.Id).FirstOrDefault();
+            var fr = db.Friends.Where(f => f.UserId == user.Id && f.FriendId == userFriend.Id).FirstOrDefault();
             if (fr != null)
             {
                 return RedirectToAction("Index", "Posts");
             }
 
-            fr = db.Friends.Where(f => f.UserFriendId == user.Id && f.UserId == userFriend.Id).FirstOrDefault();
+            fr = db.Friends.Where(f => f.FriendId == user.Id && f.UserId == userFriend.Id).FirstOrDefault();
             
             if (fr != null)
             {
                 return RedirectToAction("Index", "Posts");
             }
-            Friend friendRequest = new Friend();
+            FriendRequest friendRequest = new FriendRequest();
             friendRequest.UserId = userId;
-            friendRequest.UserFriendId = id;
+            friendRequest.FriendId = id;
             friendRequest.Status = "Pending";
-            friendRequest.UserFriend = userFriend;
+            friendRequest.Friend = userFriend;
             friendRequest.User = user;
             db.Friends.Add(friendRequest);
             db.SaveChanges();
@@ -243,7 +225,7 @@ namespace ArticlesApp.Controllers
                 return RedirectToAction("Index", "Posts");
             }
 
-            var fr = db.Friends.Where(f => f.UserId == user.Id && f.UserFriendId == userFriend.Id && f.Status == "Accepted").FirstOrDefault();
+            var fr = db.Friends.Where(f => f.UserId == user.Id && f.FriendId == userFriend.Id && f.Status == "Accepted").FirstOrDefault();
             if (fr != null)
             {
                 db.Friends.Remove(fr);
@@ -251,7 +233,7 @@ namespace ArticlesApp.Controllers
                 return RedirectToAction("Index", "Posts");
             }
 
-            fr = db.Friends.Where(f => f.UserFriendId == user.Id && f.UserId == userFriend.Id && f.Status == "Accepted").FirstOrDefault();
+            fr = db.Friends.Where(f => f.FriendId == user.Id && f.UserId == userFriend.Id && f.Status == "Accepted").FirstOrDefault();
 
             if (fr != null)
             {

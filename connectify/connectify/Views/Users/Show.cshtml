@@ -8,13 +8,6 @@
             <p><i class="bi bi-person"> </i> UserName: @Model.UserName</p>
 
             <p><i class="bi bi-envelope"></i> User email: @Model.Email</p>
-            
-            <p><i class="bi bi-person"> </i> User First Name: @Model.FirstName</p>
-            
-            <p><i class="bi bi-person"> </i> User Last Name: @Model.LastName</p>
-            
-            <p><i class="bi bi-phone"></i> User Phone Number: @Model.PhoneNumber</p>
-
 
             @if (ViewBag.Roles.Count > 0)
             {
@@ -31,7 +24,7 @@
 
         <div class="d-flex flex-row justify-content-between p-3">
 
-            @if ((string)Model.Id != ViewBag.UserCurent && ViewBag.EsteAdmin)
+            @if ((string)Model.Id != ViewBag.UserCurent)
             {
                 @using (Html.BeginForm(actionName: "Delete", controllerName: "Users", method: FormMethod.Post, routeValues: new { id = @Model.Id }))
                 {

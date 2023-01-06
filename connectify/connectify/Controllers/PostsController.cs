@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Web;
 
 namespace connectify.Controllers
 {
@@ -28,14 +27,9 @@ namespace connectify.Controllers
             _roleManager = roleManager;
         }
 
-
         [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Index()
         {
-            var userId = _userManager.GetUserId(User);
-            var user = db.Users.Include("Friends").Where(u => u.Id == userId).First();
-            ViewBag.FriendRequestsCount = db.Friends.Where(f => f.UserFriendId == userId && f.Status == "Pending").Count();
-            
             int pageSize = 4;
 
             var posts = db.Posts.Include("User").OrderByDescending(p => p.Date);
@@ -47,8 +41,6 @@ namespace connectify.Controllers
             var offset = 0;
 
             var search = "";
-
-            ViewBag.xyz = "salut";
 
             if (Convert.ToString(HttpContext.Request.Query["search"]) != null)
             {

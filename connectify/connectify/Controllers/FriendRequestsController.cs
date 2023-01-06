@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace connectify.Controllers
 {
-    public class FriendsController : Controller
+    public class FriendRequestsController : Controller
     {
         private readonly ApplicationDbContext db;
 
         private readonly UserManager<ApplicationUser> _userManager;
 
 
-        public FriendsController(
+        public FriendRequestsController(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager
             )
@@ -21,23 +21,11 @@ namespace connectify.Controllers
 
             _userManager = userManager;
         }
-        // get all friends of the current user
+        //get all friend requests that current user have
         public IActionResult Index()
         {
-            var currentUser = _userManager.GetUserAsync(User).Result;
-            var friends = db.Friends.Where(f => f.User == currentUser && f.Status == "Accepted").Select(f => f.UserFriend).ToList();
-            var aux = db.Friends.Where(f => f.UserFriend == currentUser && f.Status == "Accepted").Select(f => f.User).ToList();
-            friends.AddRange(aux);
-            ViewBag.friends = friends;
-            return View();
-        }
-
-
-        //get all friend requests that current user have
-        public IActionResult Requests()
-        {
             var userId = _userManager.GetUserId(User);
-            var friendRequests = db.Friends.Where(f => f.UserFriendId == userId && f.Status == "Pending").ToList();
+            var friendRequests = db.Friends.Where(f => f.FriendId == userId && f.Status == "Pending").ToList();
             ApplicationUser[] l = new ApplicationUser[friendRequests.Count];
             for (int i = 0; i < friendRequests.Count; i++)
             {
@@ -53,12 +41,12 @@ namespace connectify.Controllers
         public IActionResult Accept(string id)
         {
             var userId = _userManager.GetUserId(User);
-            var friendRequest = db.Friends.Where(f => f.UserId == id && f.UserFriendId == userId).FirstOrDefault();
+            var friendRequest = db.Friends.Where(f => f.UserId == id && f.FriendId == userId).FirstOrDefault();
             friendRequest.Status = "Accepted";
 
             db.SaveChanges();
             
-            return RedirectToAction("Requests");
+            return RedirectToAction("Index");
         }
 
         //reject friend request
@@ -66,10 +54,10 @@ namespace connectify.Controllers
         public IActionResult Reject(string id)
         {
             var userId = _userManager.GetUserId(User);
-            var friendRequest = db.Friends.Where(f => f.UserId == id && f.UserFriendId == userId).FirstOrDefault();
+            var friendRequest = db.Friends.Where(f => f.UserId == id && f.FriendId == userId).FirstOrDefault();
             friendRequest.Status = "Rejected";
             db.SaveChanges();
-            return RedirectToAction("Requests");
+            return RedirectToAction("Index");
         }
     }
 }
