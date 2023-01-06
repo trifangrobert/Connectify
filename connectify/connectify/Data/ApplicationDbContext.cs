@@ -30,7 +30,7 @@ namespace connectify.Data
                 .HasKey(t => new { t.ApplicationUserId, t.GroupId });
         }
 
-        public DbSet<FriendRequest> Friends { get; set; }
+        public DbSet<Friend> Friends { get; set; }
 
     }
 }

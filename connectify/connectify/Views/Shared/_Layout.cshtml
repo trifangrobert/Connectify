@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/connectify.styles.css" asp-append-version="true" />
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    
+    <script src="https://kit.fontawesome.com/dbd9c2e0e3.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -44,12 +44,26 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="FriendRequests" asp-action="Index">Friend requests</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Friends" asp-action="Index">Friends</a>
                             </li>
+
+                            //@Html.ActionLink("Friend requests", "GetFriendRequests", "Posts", new { area = "" }, new { @class = "nav-link text-dark" })
+                            @if (ViewBag.FriendRequestsCount > 0)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Friends" asp-action="Requests">Friend requests<sup>@ViewBag.FriendRequestsCount</sup></a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Friends" asp-action="Requests">Friend requests</a>
+                                </li>
+                            }
                            
                         }
 
-                        @if (User.IsInRole("User"))
+                        @if (User.IsInRole("User") || User.IsInRole("Moderator"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Posts" asp-action="Index">Posts</a>
@@ -64,8 +78,20 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="FriendRequests" asp-action="Index">Friend requests</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Friends" asp-action="Index">Friends</a>
                             </li>
+                            //@Html.ActionLink("Friend requests", "GetFriendRequests", "Posts", new { area = "" }, new { @class = "nav-link text-dark" })
+                            @if (ViewBag.FriendRequestsCount > 0)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Friends" asp-action="Requests">Friend requests<sup>@ViewBag.FriendRequestsCount</sup></a>
+                                </li>
+                            }
+                            else {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Friends" asp-action="Requests">Friend requests</a>
+                                </li>
+                            }
                         }
 
                     </ul>

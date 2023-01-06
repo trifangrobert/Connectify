@@ -42,49 +42,172 @@
 </div>
 
 @if (ViewBag.IsMember == true || ViewBag.IsOwner == true) {
-@foreach (var msg in Model.Messages)
-{
+    <p class="h1" style="text-align: center">Chat history</p>
+    @foreach (var msg in Model.Messages)
+    {
+        if (msg.UserId == ViewBag.UserCurent)
+        {
+            <div class="container msg-container right">
+                <div class="row">
+                    
+                    
+
+                        <div class="message">
+
+                            <p>@msg.Content</p>
+                    </div>
+                            @{
+                                var currentDate = DateTime.Now;
+                                var timeDifference = currentDate - msg.Date;
+
+                                if (timeDifference.TotalSeconds < 60)
+                                {
+                                    <small>@string.Format("Just now")</small>
+                                }
+                                else if (timeDifference.TotalMinutes < 60)
+                                {
+                                    <small>@string.Format("{0} min ago", timeDifference.Minutes)</small>
+                                }
+                                else if (timeDifference.TotalHours < 24)
+                                {
+                                    <small>@string.Format("{0} h ago", timeDifference.Hours)</small>
+                                }
+                                else
+                                {
+                                    <small>msg.Date.ToString("dd MMMM yyyy")</small>
+                                }
+                            }
+                            <strong><i class="bi bi-person"></i>@msg.User.FirstName</strong>
+
+                        
+                        <br>
+
+
+                        @if (msg.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin)
+                        {
+
+                        <div class="d-flex">
+                            <div>
+                                <a class="btn btn-sm btn-outline-primary" href="/Messages/Edit/@msg.Id"><i class="bi bi-pencil-square"></i>Editeaza</a>
+                            </div>
+                            <form method="post" action="/Messages/Delete/@msg.Id">
+                                <button class="btn btn-sm btn-outline-danger" type="submit">
+                                    <i class="bi bi-trash"></i>Sterge
+                                </button>
+                            </form>
+                        </div>
+                        }
+
+                    <br />
+
+
+        </div>
+        </div>
+        }
+        else {
+            <div class="container msg-container left">
+                <div class="row">
+
+
+
+                    <div class="message">
+
+                        <p>@msg.Content</p>
+                    </div>
+                        @{
+                            var currentDate = DateTime.Now;
+                            var timeDifference = currentDate - msg.Date;
+
+                            if (timeDifference.TotalSeconds < 60)
+                            {
+                                <small>@string.Format("Just now")</small>
+                            }
+                            else if (timeDifference.TotalMinutes < 60)
+                            {
+                                <small>@string.Format("{0} min ago", timeDifference.Minutes)</small>
+                            }
+                            else if (timeDifference.TotalHours < 24)
+                            {
+                                <small>@string.Format("{0} h ago", timeDifference.Hours)</small>
+                            }
+                            else
+                            {
+                                <small>msg.Date.ToString("dd MMMM yyyy")</small>
+                            }
+                        }
+                        <strong><i class="bi bi-person"></i>@msg.User.FirstName</strong>
+
+                    
+                    <br>
+
+
+                    @if (msg.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin)
+                    {
+
+                        <div class="d-flex">
+
+                            <div>
+
+                                <a class="btn btn-outline-primary" href="/Messages/Edit/@msg.Id"><i class="bi bi-pencil-square"></i>Editeaza</a>
+
+                            </div>
+
+                            <div>
+
+                                <form method="post" action="/Messages/Delete/@msg.Id">
+
+                                    <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Sterge</button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+                    }
+
+                    <br />
+
+
+                </div>
+            </div>
+        }
+    }
+
+
+    @* Afisarea formularului in care se poate adauga un mesaj *@
+
     <div class="container">
+
         <div class="row">
+
             <div class="col-md-2"></div>
 
             <div class="col-md-8">
 
-                <div>
+                <div class="card">
 
-                    <p>@msg.Content</p>
-                    <small>@msg.Date</small>
-                    <strong><i class="bi bi-person"></i>@msg.User.UserName</strong>
+                    <form method="post" action="/Groups/Show/@Model.Id">
+
+                        <div class="card-body">
+
+                            <input type="hidden" name="GroupId" value="@Model.Id" />
+
+                            <label>Continut mesaj</label>
+                            <br />
+
+                            <textarea class="form-control" name="Content"></textarea>
+
+                            @Html.ValidationMessage("Content", null, new { @class = "text-danger"})
+
+                            <br /><br />
+
+                            <button class="btn btn-success " type="submit">Adauga mesaj</button>
+
+                        </div>
+
+                    </form>
 
                 </div>
-                <br>
-
-
-                @if (msg.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin)
-                {
-
-                    <div class="d-flex">
-
-                        <div>
-
-                            <a class="btn btn-outline-primary" href="/Messages/Edit/@msg.Id"><i class="bi bi-pencil-square"></i>Editeaza</a>
-
-                        </div>
-
-                        <div>
-
-                            <form method="post" action="/Messages/Delete/@msg.Id">
-
-                                <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Sterge</button>
-
-                            </form>
-                            
-                        </div>
-
-                    </div>
-                }
-
-                <br />
 
             </div>
 
@@ -93,49 +216,4 @@
         </div>
 
     </div>
-}
-
-
-@* Afisarea formularului in care se poate adauga un mesaj *@
-
-<div class="container">
-
-    <div class="row">
-
-        <div class="col-md-2"></div>
-
-        <div class="col-md-8">
-
-            <div class="card">
-
-                <form method="post" action="/Groups/Show/@Model.Id">
-
-                    <div class="card-body">
-
-                        <input type="hidden" name="GroupId" value="@Model.Id" />
-
-                        <label>Continut mesaj</label>
-                        <br />
-
-                        <textarea class="form-control" name="Content"></textarea>
-
-                        @Html.ValidationMessage("Content", null, new { @class = "text-danger"})
-
-                        <br /><br />
-
-                        <button class="btn btn-success " type="submit">Adauga mesaj</button>
-
-                    </div>
-
-                </form>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-2"></div>
-
-    </div>
-
-</div>
 }
