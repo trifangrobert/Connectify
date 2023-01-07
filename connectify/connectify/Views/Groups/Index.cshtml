@@ -1,9 +1,12 @@
 ﻿@model connectify.Models.Group
 
-<h2>Groups on Connectify</h2>
+<div class="d-flex justify-content-center">
+    <h2 class="mx-auto">Groups on Connectify</h2>
+</div>
 <br />
 
-<a href="/Groups/New" class="btn btn-success">Create new group</a>
+<a href="/Groups/New" class="btn btn-primary">Create new group</a>
+<br /> <br />
 
 @foreach (connectify.Models.Group group in ViewBag.Groups)
 {
