@@ -30,7 +30,7 @@ namespace connectify.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "User,Editor,Admin")]
+        [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Delete(int id)
         {
             Message msg= db.Messages.Find(id);
@@ -49,7 +49,7 @@ namespace connectify.Controllers
             }
         }
 
-        [Authorize(Roles = "User,Editor,Admin")]
+        [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Edit(int id)
         {
             Message msg = db.Messages.Find(id);
@@ -67,7 +67,7 @@ namespace connectify.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "User,Editor,Admin")]
+        [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Edit(int id, Message requestMessage)
         {
             Message msg = db.Messages.Find(id);
