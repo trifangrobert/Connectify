@@ -35,7 +35,7 @@ namespace connectify.Controllers
             var userId = _userManager.GetUserId(User);
             var user = db.Users.Include("Friends").Where(u => u.Id == userId).First();
             ViewBag.FriendRequestsCount = db.Friends.Where(f => f.UserFriendId == userId && f.Status == "Pending").Count();
-            
+
             int pageSize = 4;
 
             var posts = db.Posts.Include("User").OrderByDescending(p => p.Date);
