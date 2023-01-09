@@ -47,6 +47,9 @@ namespace connectify.Controllers
             Group group = db.Groups.Include("Messages").Include("Messages.User").Where(g => g.Id == id).First();
             SetAccessRights();
             SetGroupRights(group);
+            // get owner of the group
+            var owner = db.Users.Where(u => u.Id == group.OwnerId).First();
+            ViewBag.Owner = owner;
             return View(group);
         }
 
