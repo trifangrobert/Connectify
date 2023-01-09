@@ -68,7 +68,8 @@ a.nav-link:hover {
 }
 
 .right .message {
-    background-color: lightblue;
+    background-color: #16a085;
+    color: white;
 }
 
     .right .message:before {
@@ -90,7 +91,8 @@ a.nav-link:hover {
     }
 
 .left .message {
-    background-color: lightgray;
+    background-color: #1676A0;
+    color: white;
 }
 
     .left .message:before {
@@ -117,4 +119,73 @@ a.nav-link:hover {
 
 .message-text {
     flex: 1;
+}
+
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #16a085 !important;
+    border-color: #16a085 !important;
+}
+
+.btn-outline-primary, .btn-outline-primary:hover, .btn-outline-primary:active, .btn-outline-primary:visited {
+    border-color: #16a085 !important;
+    color: #16a085 !important;
+}
+
+    .btn-outline-primary:hover {
+        color: white !important;
+        background-color: #16a085 !important;
+        border-color: #16a085 !important;
+    }
+
+.page-link {
+    color: white !important;
+    background-color: #16a085 !important;
+    border-color: white !important;
+}
+
+    .page-link:hover {
+        background-color: #0e6b58 !important;
+        border-color: #0e6b58 !important;
+    }
+
+.navbar {
+    color: white !important;
+    background-color: #16a085 !important;
+    border-color: white !important;
+}
+
+.navbar-brand {
+    color: white !important;
+}
+
+a.nav-link {
+    color: red;
+}
+
+.alert-primary {
+    background-color: rgba(22, 160, 133, .6) !important;
+    border-color: #16a085 !important;
+    color: black !important;
+}
+
+.btn-danger, .btn-danger:hover, .btn-danger:active, .btn-danger:visited {
+    background-color: #A01631 !important;
+    border-color: #A01631 !important;
+}
+
+.btn-outline-danger, .btn-outline-danger:hover, .btn-outline-danger:active, .btn-outline-danger:visited {
+    border-color: #A01631 !important;
+    color: #A01631 !important;
+}
+
+    .btn-outline-danger:hover {
+        color: white !important;
+        background-color: #A01631 !important;
+        border-color: #A01631 !important;
+    }
+
+.comm {
+    border: thin;
+    border-color: #16a085;
 }
