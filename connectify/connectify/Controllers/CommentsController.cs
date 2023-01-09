@@ -33,12 +33,12 @@ namespace connectify.Controllers
         //}
 
         [HttpPost]
-        [Authorize(Roles = "User,Editor,Admin")]
+        [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Delete(int id)
         {
             Comment comm = db.Comments.Find(id);
 
-            if (comm.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
+            if (comm.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin") || User.IsInRole("Moderator"))
             {
                 db.Comments.Remove(comm);
                 db.SaveChanges();
@@ -52,12 +52,12 @@ namespace connectify.Controllers
             }
         }
 
-        [Authorize(Roles = "User,Editor,Admin")]
+        [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Edit(int id)
         {
             Comment comm = db.Comments.Find(id);
 
-            if (comm.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
+            if (comm.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin") || User.IsInRole("Moderator"))
             {
                 return View(comm);
             }
@@ -70,12 +70,12 @@ namespace connectify.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "User,Editor,Admin")]
+        [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Edit(int id, Comment requestComment)
         {
             Comment comm = db.Comments.Find(id);
 
-            if (comm.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
+            if (comm.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin") || User.IsInRole("Moderator") )
             {
                 if (ModelState.IsValid)
                 {
