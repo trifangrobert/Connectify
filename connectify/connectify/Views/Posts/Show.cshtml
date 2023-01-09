@@ -14,7 +14,7 @@
     @if (ViewBag.AfisareButoane == true || Model.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin) {
         <div class="d-flex flex-row justify-content-between p-3 border-1 border-top">
 
-            <a class="btn btn-primary" href="/Posts/Edit/@Model.Id">Edit post</a>
+            <a class="btn btn-success" href="/Posts/Edit/@Model.Id">Edit post</a>
 
             <form method="post" action="/Posts/Delete/@Model.Id">
 
@@ -38,28 +38,8 @@
                 <div>
 
                     <p>@comm.Content</p>
-                    @{
-                        var currentDate = DateTime.Now;
-                        var timeDifference = currentDate - comm.Date;
-
-                        if (timeDifference.TotalSeconds < 60)
-                        {
-                            <small>@string.Format("Just now")</small>
-                        }
-                        else if (timeDifference.TotalMinutes < 60)
-                        {
-                            <small>@string.Format("{0} min ago", timeDifference.Minutes)</small>
-                        }
-                        else if (timeDifference.TotalHours < 24)
-                        {
-                            <small>@string.Format("{0} h ago", timeDifference.Hours)</small>
-                        }
-                        else
-                        {
-                            <small>@comm.Date.ToString("dd MMMM yyyy")</small>
-                        }
-                    }
-                    <strong><i class="bi bi-person"></i>@comm.User.FirstName @comm.User.LastName</strong>
+                    <small>@comm.Date</small>
+                    <strong><i class="bi bi-person"></i>@comm.User.UserName</strong>
 
                 </div>
                 <br>
@@ -128,7 +108,7 @@
 
                         <br /><br />
 
-                        <button class="btn btn-primary " type="submit">Adauga comentariul</button>
+                        <button class="btn btn-success " type="submit">Adauga comentariul</button>
 
                     </div>
 

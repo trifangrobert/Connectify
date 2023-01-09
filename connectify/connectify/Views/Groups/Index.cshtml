@@ -1,23 +1,16 @@
 ﻿@model connectify.Models.Group
 
-<div class="d-flex justify-content-center">
-    <h2 class="mx-auto">Groups on Connectify</h2>
-</div>
+<h2>Groups on Connectify</h2>
 <br />
 
-<a href="/Groups/New" class="btn btn-primary">Create new group</a>
-<br /><br />
-<div class="row">
+<a href="/Groups/New" class="btn btn-success">Create new group</a>
+
 @foreach (connectify.Models.Group group in ViewBag.Groups)
 {
-        <div class="col-4 mb-4">
-            <div class="card">
-                @Html.Partial("GroupInfo", group)
-                <div class="d-flex flex-row justify-content-between p-3 border-1 border-top">
-                    <a href="/Groups/Show/@group.Id" class="btn btn-primary">See group</a>
-                </div>
-            </div>
+    <div class="card">
+        @Html.Partial("GroupInfo", group)
+        <div class="d-flex flex-row justify-content-between p-3 border-1 border-top">
+            <a href="/Groups/Show/@group.Id" class="btn btn-primary">See group</a>
         </div>
-    <br />
+    </div>
 }
-</div>

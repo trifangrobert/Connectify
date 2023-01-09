@@ -37,9 +37,9 @@
 				<label asp-for="Input.LastName"></label>
 				<span asp-validation-for="Input.LastName" class="text-danger"></span>
 			</div>
-            <div>
-                <input asp-for="Input.Visibility" type="checkbox" aria-required="true" class="form-check-input form-check-inline" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="You can change it later when editing your profile!" />
-                <label asp-for="Input.Visibility" class="form-check-label">I want my profile to be public</label>
+			<div class="form-floating">
+				<input asp-for="Input.Visibility" type="checkbox" aria-required="true"/>
+				<label asp-for="Input.Visibility">Public profile</label>
 				<span asp-validation-for="Input.Visibility" class="text-danger"></span>
 			</div>
             <br />

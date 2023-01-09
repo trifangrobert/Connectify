@@ -12,13 +12,11 @@
     </div>
 </form>
 
-<div class="d-flex justify-content-center">
-    <h2 class="mx-auto">Posts on Connectify</h2>
-</div>
+<h2>Posts on Connectify</h2>
 <br />
 
-<a href="/Posts/New" class="btn btn-primary">Create new post</a>
-<br /><br />
+<a href="/Posts/New" class="btn btn-success">Create new post</a>
+
 @foreach (connectify.Models.Post post in ViewBag.Posts) {
     <div class="card">
         @Html.Partial("PostInfo", post)
@@ -26,7 +24,6 @@
             <a href="/Posts/Show/@post.Id" class="btn btn-primary">Read more</a>
         </div>
     </div>
-    <br />
 }
 
 <div>
