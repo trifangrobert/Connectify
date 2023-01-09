@@ -10,7 +10,7 @@
     </div>
 
     @Html.Partial("GroupInfo", Model)
-
+    <div class="card-footer"><i class="bi bi-person"></i>Owner: <strong>@ViewBag.Owner.FirstName @ViewBag.Owner.LastName</strong></div>
     <div class="d-flex flex-row justify-content-between p-3 border-1 border-top">
         @if (!ViewBag.IsOwner) {
             @if (ViewBag.IsMember)
@@ -28,7 +28,7 @@
         @if (ViewBag.AfisareButoane == true || Model.OwnerId == ViewBag.UserCurent || ViewBag.EsteAdmin)
         {
 
-            <a class="btn btn-success" href="/Groups/Edit/@Model.Id">Edit group</a>
+            <a class="btn btn-primary" href="/Groups/Edit/@Model.Id">Edit group</a>
 
             <form method="post" action="/Groups/Delete/@Model.Id">
 
@@ -74,7 +74,7 @@
                                 }
                                 else
                                 {
-                                    <small>msg.Date.ToString("dd MMMM yyyy")</small>
+                                    <small>@msg.Date.ToString("dd MMMM yyyy")</small>
                                 }
                             }
                             <strong><i class="bi bi-person"></i>@msg.User.FirstName</strong>
@@ -132,7 +132,7 @@
                             }
                             else
                             {
-                                <small>msg.Date.ToString("dd MMMM yyyy")</small>
+                                <small>@msg.Date.ToString("dd MMMM yyyy")</small>
                             }
                         }
                         <strong><i class="bi bi-person"></i>@msg.User.FirstName</strong>
@@ -201,7 +201,7 @@
 
                             <br /><br />
 
-                            <button class="btn btn-success " type="submit">Adauga mesaj</button>
+                            <button class="btn btn-primary " type="submit">Trimite mesaj</button>
 
                         </div>
 

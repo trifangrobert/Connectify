@@ -51,10 +51,10 @@
                         </div>
                         <div class="d-flex flex-row justify-content-between p-3">
                             @if (ViewBag.isAdmin) {
-						        <div> <a class="btn btn-sm btn-success" href="/Users/Edit/@user.Id"> Edit user</a> </div>	
+						        <div> <a class="btn btn-sm btn-primary" href="/Users/Edit/@user.Id"> Edit user</a> </div>	
                             }
                                 @if (ViewBag.friends.Contains(user) == false) {
-                                    <div> <a class="btn btn-sm btn-success" href="/Users/AddFriend/@user.Id"> Add friend</a> </div>
+                                    <div> <a class="btn btn-sm btn-primary" href="/Users/AddFriend/@user.Id"> Add friend</a> </div>
                                 }
 						        else {
                                     <div> <a class="btn btn-sm btn-danger" href="/Users/RemoveFriend/@user.Id"> Remove friend</a> </div>
@@ -63,7 +63,7 @@
 
                             @if (ViewBag.friends.Contains(user) || @user.Visibility == true || ViewBag.isAdmin)
                             {
-                                <div> <a class="btn btn-sm btn-success" href="/Users/Show/@user.Id"> View user</a> </div>
+                                <div> <a class="btn btn-sm btn-primary" href="/Users/Show/@user.Id"> View user</a> </div>
                             }
                         </div>
                     </div>
