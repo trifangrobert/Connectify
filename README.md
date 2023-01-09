@@ -6,4 +6,4 @@ Connect with your friends, post status updates and join groups to chat with peop
 ## Tech stack
 This project has been built using C#, ASP.NET, HTML, CSS and JavaScript.
 
-## Developed by https://github.com/AlexPascu001 and https://github.com/trifangrobert
+## Developed by [Alexandru Pascu](https://github.com/AlexPascu001) and [Robert Trifan](https://github.com/trifangrobert)
