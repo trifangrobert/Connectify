@@ -3,7 +3,7 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome on Connectify</h1>
+    <h1 class="display-4">Welcome to Connectify</h1>
 </div>
 
 
@@ -14,7 +14,7 @@
                 <div class="col-md-8">
                     <h1 class="font-roboto display-5 fw-bold">@Html.Raw(ViewBag.FirstPost.Title)</h1>
                     <div class="font-montserrat mb-3 truncate">@Html.Raw(ViewBag.FirstPost.Content)</div>
-                    <a href="/Posts/Show/@ViewBag.FirstPost.Id" class="btn btn-outline-success">Vezi postarea</a>
+                    <a href="/Posts/Show/@ViewBag.FirstPost.Id" class="btn btn-outline-primary">Vezi postarea</a>
                 </div>
                 <div class="col-md-4">
                     <img src="https://icon-library.com/images/newspaper-png-icon/newspaper-png-icon-15.jpg" class="img-fluid align-items-center justify-content-center" />
@@ -38,7 +38,7 @@
                     <div class="font-montserrat truncate">@Html.Raw(post.Content)</div>
                 </div>
                 <div class="card-footer">
-                    <a class="btn btn-outline-success" href="/Posts/Show/@post.Id">Vezi postarea</a>
+                    <a class="btn btn-outline-primary" href="/Posts/Show/@post.Id">Vezi postarea</a>
                 </div>
             </div>
         </div>

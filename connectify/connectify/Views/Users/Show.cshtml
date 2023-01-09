@@ -1,49 +1,49 @@
 ﻿@model connectify.Models.ApplicationUser
 
+<div style="width: 50%; margin: auto">
+    <div class="card mt-3" style="height:100%; width: 100%; border: 2px solid #16a085; border-radius: 10px">
 
-<div class="card mt-3" style="height:100%; width: 100%;">
+        <div class="card-body d-flex justify-content-between flex-column">
+            <div>
+                <p><i class="bi bi-person"> </i> UserName: @Model.UserName</p>
 
-    <div class="card-body d-flex justify-content-between flex-column">
-        <div>
-            <p><i class="bi bi-person"> </i> UserName: @Model.UserName</p>
-
-            <p><i class="bi bi-envelope"></i> User email: @Model.Email</p>
+                <p><i class="bi bi-envelope"></i> User email: @Model.Email</p>
             
-            <p><i class="bi bi-person"> </i> User First Name: @Model.FirstName</p>
+                <p><i class="bi bi-person"> </i> User First Name: @Model.FirstName</p>
             
-            <p><i class="bi bi-person"> </i> User Last Name: @Model.LastName</p>
+                <p><i class="bi bi-person"> </i> User Last Name: @Model.LastName</p>
             
-            <p><i class="bi bi-phone"></i> User Phone Number: @Model.PhoneNumber</p>
+                <p><i class="bi bi-phone"></i> User Phone Number: @Model.PhoneNumber</p>
 
 
-            @if (ViewBag.Roles.Count > 0)
-            {
-                <p><i class="bi bi-person"> </i> User roles:</p>
-                @foreach (var role in ViewBag.Roles)
+                @if (ViewBag.Roles.Count > 0)
                 {
-                    <span class="rounded-pill bg-dark mr-2 px-4 py-2 text-white">@role</span>
+                    <p><i class="bi bi-person"> </i> User roles:</p>
+                    @foreach (var role in ViewBag.Roles)
+                    {
+                        <span class="rounded-pill bg-dark mr-2 px-4 py-2 text-white">@role</span>
+                    }
                 }
-            }
 
 
 
-        </div>
+            </div>
 
-        <div class="d-flex flex-row justify-content-between p-3">
+            <div class="d-flex flex-row justify-content-between p-3">
 
-            @if ((string)Model.Id != ViewBag.UserCurent && ViewBag.EsteAdmin)
-            {
-                @using (Html.BeginForm(actionName: "Delete", controllerName: "Users", method: FormMethod.Post, routeValues: new { id = @Model.Id }))
+                @if ((string)Model.Id != ViewBag.UserCurent && ViewBag.EsteAdmin)
                 {
+                    @using (Html.BeginForm(actionName: "Delete", controllerName: "Users", method: FormMethod.Post, routeValues: new { id = @Model.Id }))
+                    {
 
-                    <button class="btn btn-danger" type="submit">Remove user</button>
+                        <button class="btn btn-danger" type="submit">Remove user</button>
 
+                    }
                 }
-            }
+            </div>
         </div>
     </div>
 </div>
-
 
 
 

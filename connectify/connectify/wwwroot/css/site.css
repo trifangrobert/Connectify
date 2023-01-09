@@ -186,6 +186,7 @@ a.nav-link {
     }
 
 .comm {
-    border: thin;
-    border-color: #16a085;
+    border: 2px solid #16a085;
+    border-radius: 10px;
+    padding: 5px;
 }
