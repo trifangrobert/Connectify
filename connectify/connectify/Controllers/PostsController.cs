@@ -150,7 +150,7 @@ namespace connectify.Controllers
         {
             Post post = db.Posts.Where(pst => pst.Id == id).First();
 
-            if (post.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
+            if (post.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin") || User.IsInRole("Moderator"))
             {
                 return View(post);
             }
@@ -172,7 +172,7 @@ namespace connectify.Controllers
             if (ModelState.IsValid)
             {
 
-                if (post.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
+                if (post.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin") || User.IsInRole("Moderator"))
                 {
                     reqpost.Content = sanitizer.Sanitize(reqpost.Content);
                     //post.Date = DateTime.Now;
@@ -203,7 +203,7 @@ namespace connectify.Controllers
             
             if (ModelState.IsValid)
             {
-                if (post.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
+                if (post.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin") || User.IsInRole("Moderator"))
                 {
                     db.Posts.Remove(post);
                     db.SaveChanges();
@@ -223,14 +223,9 @@ namespace connectify.Controllers
         }
         private void SetAccessRights()
         {
-            ViewBag.AfisareButoane = false;
-
-            if (User.IsInRole("Moderator"))
-            {
-                ViewBag.AfisareButoane = true;
-            }
 
             ViewBag.EsteAdmin = User.IsInRole("Admin");
+            ViewBag.EsteModerator = User.IsInRole("Moderator");
 
             ViewBag.UserCurent = _userManager.GetUserId(User);
         }

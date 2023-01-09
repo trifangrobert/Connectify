@@ -11,7 +11,7 @@
 
     @Html.Partial("PostInfo", Model)
 
-    @if (ViewBag.AfisareButoane == true || Model.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin) {
+    @if (ViewBag.EsteModerator || Model.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin) {
         <div class="d-flex flex-row justify-content-between p-3 border-1 border-top">
 
             <a class="btn btn-primary" href="/Posts/Edit/@Model.Id">Edit post</a>
@@ -65,7 +65,7 @@
                 <br>
 
 
-                @if (comm.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin)
+                @if (comm.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin || ViewBag.EsteModerator)
                 {
 
                     <div class="d-flex">
