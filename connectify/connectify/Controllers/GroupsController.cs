@@ -220,12 +220,6 @@ namespace connectify.Controllers
         [NonAction]
         private void SetAccessRights()
         {
-            ViewBag.AfisareButoane = false;
-
-            if (User.IsInRole("Moderator"))
-            {
-                ViewBag.AfisareButoane = true;
-            }
 
             ViewBag.EsteAdmin = User.IsInRole("Admin");
 

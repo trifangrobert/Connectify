@@ -25,7 +25,7 @@
                 </form>
             }
         }
-        @if (ViewBag.AfisareButoane == true || Model.OwnerId == ViewBag.UserCurent || ViewBag.EsteAdmin)
+        @if (Model.OwnerId == ViewBag.UserCurent || ViewBag.EsteAdmin)
         {
 
             <a class="btn btn-primary" href="/Groups/Edit/@Model.Id">Edit group</a>
